@@ -15,4 +15,3 @@
 
 - name: Create MongoDB User
   user: name="mongodb" createhome=no system=yes group=mongodb state=present shell=/usr/sbin/nologin
-
