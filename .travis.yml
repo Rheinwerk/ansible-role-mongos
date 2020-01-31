@@ -16,7 +16,7 @@ addons:
 
 before_install:
   # Remove default database components in Travis -- would cause conflicts
-  - apt-get -y --purge remove mongodb* mysql* postgresql* rabbitmq* redis*
+  - sudo apt-get -y --purge remove mongodb* mysql* postgresql* rabbitmq* redis*
 
 install:
   # Install ansible
