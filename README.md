@@ -3,7 +3,7 @@ Install MongoS
 
 This role can be used to install MongoDB.org mongos.
 
-[![Build Status](https://travis-ci.org/Rheinwerk/ansible-role-mongos.svg?branch=master)](https://travis-ci.org/Rheinwerk/ansible-role-mongos)
+[![Build Status](https://github.com/Rheinwerk/ansible-role-mongos/actions/workflows/ci.yml/badge.svg)](https://github.com/Rheinwerk/ansible-role-mongos/actions/workflows/ci.yml)
 
 Requirements
 ------------
