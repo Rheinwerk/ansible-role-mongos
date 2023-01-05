@@ -1,17 +1,33 @@
 # vim:ft=ansible:ts=2:et:
 ---
 - name: Install MongoDB package key
-  apt_key: id="{{ _mongos.apt.key_id }}" keyserver="{{ _mongos.apt.key_server }}" state=present
+  apt_key:
+    id: "{{ _mongos.apt.key_id }}"
+    keyserver: "{{ _mongos.apt.key_server }}"
+    state: present
 
 - name: Add MongoDB repository
-  apt_repository: repo="{{ _mongos.apt.repo_line }}" state=present
+  apt_repository:
+    repo: "{{ _mongos.apt.repo_line }}"
+    state: present
 
 - name: Install MongoS
-  apt: name="{{ item.name }}={{ item.version }}" state=present
+  apt:
+    name: "{{ item.name }}={{ item.version }}"
+    state: present
   with_items: "{{ _mongos.apt.packages }}"
 
 - name: Create MongoDB Group
-  group: name="mongodb" system=yes state=present
+  group:
+    name: "mongodb"
+    system: yes
+    state: present
 
 - name: Create MongoDB User
-  user: name="mongodb" createhome=no system=yes group=mongodb state=present shell=/usr/sbin/nologin
+  user:
+    name: "mongodb"
+    createhome: no
+    system: yes
+    group: mongodb
+    state: present
+    shell: /usr/sbin/nologin
