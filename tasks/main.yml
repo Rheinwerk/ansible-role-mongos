@@ -1,10 +1,10 @@
 # vim:ft=ansible:ts=2:et:
 ---
+
 - name: Install MongoDB package key
-  ansible.builtin.apt_key:
-    id: "{{ _mongos.apt.key_id }}"
-    keyserver: "{{ _mongos.apt.key_server }}"
-    state: present
+  ansible.builtin.get_url:
+    url: "{{ _mongodb.apt.key_url }}"
+    dest: /etc/apt/trusted.gpg.d/mongodb.asc
 
 - name: Add MongoDB repository
   ansible.builtin.apt_repository:
