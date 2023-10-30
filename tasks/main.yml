@@ -3,7 +3,7 @@
 
 - name: Install MongoDB package key
   ansible.builtin.get_url:
-    url: "{{ _mongodb.apt.key_url }}"
+    url: "{{ _mongos.apt.key_url }}"
     dest: /etc/apt/trusted.gpg.d/mongodb.asc
 
 - name: Add MongoDB repository
