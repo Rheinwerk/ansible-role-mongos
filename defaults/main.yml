@@ -1,15 +1,15 @@
 ---
 _mongos:
   apt:
-    repo_line: "deb [ arch=amd64 ] https://repo.mongodb.org/apt/ubuntu bionic/mongodb-org/3.6 multiverse"
-    key_id: "2930ADAE8CAF5059EE73BB4B58712A2291FA4AD5"
+    repo_line: "deb [ arch=amd64 trusted=yes ] https://repo.mongodb.org/apt/ubuntu bionic/mongodb-org/4.2 multiverse"
+    key_url: "https://www.mongodb.org/static/pgp/server-4.2.asc"
     key_server: "keyserver.ubuntu.com"
     packages:
       - name: "mongodb-org-mongos"
-        version: "3.6*"
+        version: "4.2*"
       - name: "mongodb-org-tools"
-        version: "3.6*"
+        version: "4.2*"
       - name: "mongodb-org-shell"
-        version: "3.6*"
+        version: "4.2*"
   remove_default_startup: true
   remove_default_data: true
