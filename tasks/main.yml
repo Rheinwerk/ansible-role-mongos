@@ -5,6 +5,9 @@
   ansible.builtin.get_url:
     url: "{{ _mongos.apt.key_url }}"
     dest: /etc/apt/trusted.gpg.d/mongodb.asc
+    owner: root
+    group: root
+    mode: 0644
 
 - name: Add MongoDB repository
   ansible.builtin.apt_repository:
