@@ -34,3 +34,9 @@
     group: mongodb
     state: present
     shell: /usr/sbin/nologin
+
+- name: Install consul healthcheck helper
+  ansible.builtin.copy:
+    src: usr/local/bin/mongos-healthcheck.sh
+    dest: /usr/local/bin/mongos-healthcheck.sh
+    mode: "0755"
