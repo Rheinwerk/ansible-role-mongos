@@ -8,11 +8,13 @@
     owner: root
     group: root
     mode: 0644
+  when: _mongos.apt.key_url is defined
 
 - name: Add MongoDB repository
   ansible.builtin.apt_repository:
     repo: "{{ _mongos.apt.repo_line }}"
     state: present
+  when: _mongos.apt.repo_line is defined
 
 - name: Install MongoS
   ansible.builtin.apt:
