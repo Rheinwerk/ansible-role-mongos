@@ -1,15 +1,19 @@
 ---
 _mongos:
+  deb822_repository:
+    - name: mongodb
+      types: deb
+      uris: https://repo.mongodb.org/apt/debian
+      suites: "{{ ansible_distribution_release }}/mongodb-org/8.0"
+      components: main
+      signed_by: https://www.mongodb.org/static/pgp/server-8.0.asc
   apt:
-    repo_line: "deb [ arch=amd64 trusted=yes ] https://repo.mongodb.org/apt/ubuntu bionic/mongodb-org/4.2 multiverse"
-    key_url: "https://www.mongodb.org/static/pgp/server-4.2.asc"
-    key_server: "keyserver.ubuntu.com"
     packages:
       - name: "mongodb-org-mongos"
-        version: "4.2*"
+        version: "8.0*"
       - name: "mongodb-org-tools"
-        version: "4.2*"
+        version: "8.0*"
       - name: "mongodb-org-shell"
-        version: "4.2*"
+        version: "8.0*"
   remove_default_startup: true
   remove_default_data: true
