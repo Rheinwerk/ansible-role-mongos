@@ -8,6 +8,8 @@
     suites: "{{ item.suites }}"
     components: "{{ item.components }}"
     signed_by: "{{ item.signed_by }}"
+    # ignore invalid/expired signature
+    trusted: yes
   loop: "{{ _mongos.deb822_repository | default([]) }}"
 
 - name: Install MongoS
