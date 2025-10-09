@@ -1,6 +1,5 @@
 galaxy_info:
-  author: Daniel Schneller
-  namespace: rheinwerk
+  author: rheinwerk
   role_name: mongos
   description: Installs MongoDB.org MongoS
   company: Rheinwerk
