@@ -1,0 +1,15 @@
+---
+- name: Add Debian Bullseye repository for libssl1.1
+  ansible.builtin.deb822_repository:
+    name: bullseye
+    types: deb
+    uris: http://deb.debian.org/debian
+    suites: bullseye
+    components: main
+    state: present
+
+- name: Install libssl1.1 from bullseye
+  ansible.builtin.apt:
+    name: libssl1.1
+    state: present
+    update_cache: true
