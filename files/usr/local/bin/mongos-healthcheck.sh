@@ -8,4 +8,4 @@ fi
 
 HOST="$1"
 
-mongo --norc --quiet --tls --host "$HOST" --eval 'db.runCommand({ping: 1})' || exit 2
+mongosh --norc --quiet --tls --host "$HOST" --eval 'db.runCommand({ping: 1})' || exit 2
