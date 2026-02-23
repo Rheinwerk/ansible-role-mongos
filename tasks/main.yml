@@ -39,3 +39,36 @@
     src: usr/local/bin/mongos-healthcheck.sh
     dest: /usr/local/bin/mongos-healthcheck.sh
     mode: "0755"
+
+- name: Copy mongosh.conf
+  ansible.builtin.copy:
+    src: "etc/mongosh.conf"
+    dest: "/etc/mongosh.conf"
+    owner: root
+    group: root
+    mode: "0644"
+
+- name: Create mongosh history reversal script
+  ansible.builtin.copy:
+    src: "usr/local/bin/mongosh-history-reverse.sh"
+    dest: "/usr/local/bin/mongosh-history-reverse.sh"
+    owner: root
+    group: root
+    mode: "0755"
+
+- name: Install mongosh history reversal systemd units
+  ansible.builtin.copy:
+    src: "{{ item }}"
+    dest: "/{{ item }}"
+    owner: root
+    group: root
+    mode: "0644"
+  loop:
+    - etc/systemd/system/mongosh-history-reverse.service
+    - etc/systemd/system/mongosh-history-reverse.timer
+
+- name: Enable mongosh history reversal timer
+  ansible.builtin.systemd:
+    name: mongosh-history-reverse.timer
+    enabled: true
+    daemon_reload: true

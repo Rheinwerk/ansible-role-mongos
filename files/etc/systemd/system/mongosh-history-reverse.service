@@ -1,0 +1,6 @@
+[Unit]
+Description=Mongosh History Reversal Service
+
+[Service]
+Type=oneshot
+ExecStart=/usr/local/bin/mongosh-history-reverse.sh
