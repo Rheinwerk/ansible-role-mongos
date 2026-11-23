@@ -1,0 +1,45 @@
+---
+# The dict of v1.x is gone; a play that still sets it would install nothing it asked for
+- name: Assert the old _mongos dict is not set
+  ansible.builtin.assert:
+    that:
+      - _mongos is not defined
+    fail_msg: "_mongos (a dict) was replaced by _mongos_deb822_repository and _mongos_apt in v2.0.0, see the README"
+    quiet: true
+  tags:
+    - always
+
+- name: Assert the repositories
+  ansible.builtin.assert:
+    that:
+      - _mongos_deb822_repository is sequence
+      - _mongos_deb822_repository is not string
+      - _mongos_deb822_repository | reject('mapping') | list | length == 0
+      - _mongos_deb822_repository | map(attribute='name') | reject('match', '^[A-Za-z0-9_.-]+\\Z') | list | length == 0
+      - _mongos_deb822_repository | map(attribute='name') | unique | list | length == _mongos_deb822_repository | length
+      - _mongos_deb822_repository | selectattr('types', 'defined') | rejectattr('types', 'equalto', 'deb') | list | length == 0
+      - _mongos_deb822_repository | map(attribute='uris') | reject('match', '^https?://\\S+\\Z') | list | length == 0
+      - _mongos_deb822_repository | map(attribute='signed_by') | reject('match', '^(https?://|/)\\S+\\Z') | list | length == 0
+    fail_msg: >-
+      _mongos_deb822_repository must be a list of repositories with unique names, types deb, an http(s) uris
+      and signed_by as a key URL or absolute keyring path
+    quiet: true
+  tags:
+    - always
+
+- name: Assert the packages
+  ansible.builtin.assert:
+    that:
+      - _mongos_apt is mapping
+      - _mongos_apt.packages is defined
+      - _mongos_apt.packages is sequence
+      - _mongos_apt.packages is not string
+      - _mongos_apt.packages | length > 0
+      - _mongos_apt.packages | reject('mapping') | list | length == 0
+      - _mongos_apt.packages | map(attribute='name') | reject('match', '^[a-z0-9][a-z0-9.+-]+\\Z') | list | length == 0
+      - _mongos_apt.packages | map(attribute='version') | reject('string') | list | length == 0
+      - _mongos_apt.packages | map(attribute='version') | reject('match', '^[A-Za-z0-9.+~:*-]+\\Z') | list | length == 0
+    fail_msg: "_mongos_apt.packages must list at least one package as {name, version} with a Debian package name and an apt version pattern"
+    quiet: true
+  tags:
+    - always

@@ -1,0 +1,61 @@
+---
+argument_specs:
+  main:
+    short_description: Install mongos and its tools from APT, create the mongodb user, mongosh config and the mongosh history timer
+    options:
+      _mongos_deb822_repository:
+        type: list
+        elements: dict
+        description:
+          - APT repositories added before the packages are installed.
+        options:
+          name:
+            type: str
+            required: true
+            description:
+              - Repository name, the file name below /etc/apt/sources.list.d.
+          types:
+            type: str
+            description:
+              - Only C(deb) is supported, the default.
+          uris:
+            type: str
+            required: true
+            description:
+              - Repository URI.
+          suites:
+            type: str
+            required: true
+            description:
+              - Suite, for example C(jammy/mongodb-org/8.0).
+          components:
+            type: str
+            required: true
+            description:
+              - Components, for example C(multiverse).
+          signed_by:
+            type: str
+            required: true
+            description:
+              - URL or absolute path of the signing key.
+      _mongos_apt:
+        type: dict
+        description:
+          - Packages to install.
+        options:
+          packages:
+            type: list
+            elements: dict
+            description:
+              - At least one package, installed as <name>=<version>.
+            options:
+              name:
+                type: str
+                required: true
+                description:
+                  - Package name.
+              version:
+                type: str
+                required: true
+                description:
+                  - APT version pattern, for example C(8.0*) or C(*).

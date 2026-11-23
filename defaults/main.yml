@@ -1,19 +1,12 @@
 ---
-_mongos:
-  deb822_repository:
-    - name: mongodb_bionic
-      types: deb
-      uris: https://repo.mongodb.org/apt/ubuntu
-      suites: bionic/mongodb-org/4.2
-      components: multiverse
-      signed_by: https://www.mongodb.org/static/pgp/server-4.2.asc
-  apt:
-    packages:
-      - name: "mongodb-org-mongos"
-        version: "4.2*"
-      - name: "mongodb-org-tools"
-        version: "4.2*"
-      - name: "mongodb-org-shell"
-        version: "4.2*"
-  remove_default_startup: true
-  remove_default_data: true
+# defaults file for ansible-role-mongos
+
+# APT repositories in deb822 format: name, uris, suites, components and signed_by (key URL or
+# keyring path) are required, types is always deb. The play sets the repository together with
+# the package versions it serves, so there is no default
+_mongos_deb822_repository: []
+
+# Packages to install: packages is a list of {name, version}; version is an apt version pattern
+# such as "8.0*" or "*". The play sets it, at least one package is required
+_mongos_apt:
+  packages: []

@@ -1,0 +1,48 @@
+---
+# tests/vars.yml installs mongos 8.0 from the MongoDB repository
+- name: Verify
+  hosts: all
+  become: true
+  gather_facts: false
+  tasks:
+    - name: Read the mongos version
+      ansible.builtin.command: mongos --version
+      register: verify_mongos
+      changed_when: false
+
+    - name: Mongos 8.0 is installed
+      ansible.builtin.assert:
+        that:
+          - verify_mongos.stdout is search('version v8\\.0\\.')
+        fail_msg: "{{ verify_mongos.stdout }}"
+
+    - name: Read the user database
+      ansible.builtin.getent:
+        database: passwd
+        key: mongodb
+
+    - name: The mongodb system user has no login shell
+      ansible.builtin.assert:
+        that:
+          - ansible_facts.getent_passwd.mongodb[1] | int < 1000
+          - ansible_facts.getent_passwd.mongodb[5] == '/usr/sbin/nologin'
+
+    - name: Read the installed helper files
+      ansible.builtin.stat:
+        path: "{{ item }}"
+      loop:
+        - /usr/local/bin/mongos-healthcheck.sh
+        - /usr/local/bin/mongosh-history-reverse.sh
+        - /etc/mongosh.conf
+      register: verify_files
+
+    - name: The helper files are in place
+      ansible.builtin.assert:
+        that:
+          - verify_files.results | rejectattr('stat.exists') | list | length == 0
+
+    - name: Read whether the mongosh history timer starts at boot
+      ansible.builtin.command: systemctl is-enabled mongosh-history-reverse.timer
+      register: verify_timer
+      changed_when: false
+      failed_when: verify_timer.stdout != 'enabled'

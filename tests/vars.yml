@@ -1,0 +1,17 @@
+---
+# The MongoDB 8.0 repository and packages the CenterDevice application images install
+_mongos_deb822_repository:
+  - name: mongodb_jammy
+    types: deb
+    uris: https://repo.mongodb.org/apt/ubuntu
+    suites: jammy/mongodb-org/8.0
+    components: multiverse
+    signed_by: https://www.mongodb.org/static/pgp/server-8.0.asc
+_mongos_apt:
+  packages:
+    - name: mongodb-org-mongos
+      version: "8.0*"
+    - name: mongodb-org-tools
+      version: "8.0*"
+    - name: mongodb-mongosh
+      version: "*"
