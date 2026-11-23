@@ -37,7 +37,8 @@
       - _mongos_apt.packages | length > 0
       - _mongos_apt.packages | reject('mapping') | list | length == 0
       - _mongos_apt.packages | map(attribute='name') | reject('match', '^[a-z0-9][a-z0-9.+-]+\\Z') | list | length == 0
-      - _mongos_apt.packages | map(attribute='version') | map('string') | reject('match', '^[A-Za-z0-9.+~:*-]+\\Z') | list | length == 0
+      - _mongos_apt.packages | map(attribute='version') | reject('string') | list | length == 0
+      - _mongos_apt.packages | map(attribute='version') | reject('match', '^[A-Za-z0-9.+~:*-]+\\Z') | list | length == 0
     fail_msg: "_mongos_apt.packages must list at least one package as {name, version} with a Debian package name and an apt version pattern"
     quiet: true
   tags:
