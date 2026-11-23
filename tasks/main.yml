@@ -1,5 +1,10 @@
-# vim:ft=ansible:ts=2:et:
 ---
+# vim:ft=ansible:ts=2:et:
+- name: Assert
+  ansible.builtin.import_tasks: assert.yml
+  tags:
+    - always
+
 - name: Add MongoDB Deb822 Repo
   ansible.builtin.deb822_repository:
     name: "{{ item.name }}"
@@ -9,27 +14,31 @@
     components: "{{ item.components }}"
     signed_by: "{{ item.signed_by }}"
     # ignore invalid/expired signature
-    trusted: yes
-  loop: "{{ _mongos.deb822_repository | default([]) }}"
+    trusted: true
+  loop: "{{ _mongos_deb822_repository }}"
+  loop_control:
+    label: "{{ item.name }}"
 
 - name: Install MongoS
   ansible.builtin.apt:
     name: "{{ item.name }}={{ item.version }}"
     state: present
     update_cache: true
-  with_items: "{{ _mongos.apt.packages }}"
+  loop: "{{ _mongos_apt.packages }}"
+  loop_control:
+    label: "{{ item.name }}={{ item.version }}"
 
 - name: Create MongoDB Group
   ansible.builtin.group:
     name: "mongodb"
-    system: yes
+    system: true
     state: present
 
 - name: Create MongoDB User
   ansible.builtin.user:
     name: "mongodb"
-    createhome: no
-    system: yes
+    create_home: false
+    system: true
     group: mongodb
     state: present
     shell: /usr/sbin/nologin
